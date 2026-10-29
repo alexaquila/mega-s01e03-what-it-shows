@@ -26,3 +26,7 @@ two review artifacts afterward. The dynamic bundle can also render the other KB 
 
 The snapshot reflects the 2026-10-04 data and the 2026-10-29 review date. It is not a live
 support queue. Refresh the export and regenerate views and issue counts before a new handoff.
+
+## Engineering disposition
+
+The course desk update reports #4471 closed on 2026-10-05: parser fixed; hint not fixed because booking-v3 was retired. Issue #1 is completed, issue #2 not planned. The source, interactive bundle, HTML snapshot and PNG include these distinct outcomes.

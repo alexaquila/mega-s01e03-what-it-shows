@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 reviewed: two causes behind the date reports'
 owner: support desk
-status: reviewed-export
+status: resolved
 reviewed: 2026-10-29
 signature: 'Codex · S01E03 · 2026-10-29'
 ---
@@ -20,6 +20,23 @@ refresh the export and rerun these views before using the counts for a new hando
 
 The [original incident](/kb/incidents/4471) says “one issue, one fix queued.” Its own
 rendered table shows two causes. One parser fix does not fix the booking form's hint.
+
+## Outcome: engineering closed #4471 on 5 October
+
+The [course desk update](https://hq.mega.dev/challenges/what-it-shows) now reports:
+
+- **Parser: fixed.** Engineering's change is `fix(dates): parse dd/mm for eu locales`.
+  [Parser ticket](https://github.com/alexaquila/mega-s01e03-what-it-shows/issues/1)
+  is closed as completed.
+- **Hint: won't fix.** The booking-v3 form was retired.
+  [Hint ticket](https://github.com/alexaquila/mega-s01e03-what-it-shows/issues/2)
+  is closed as not planned, because the affected form was retired rather than repaired.
+
+These are different outcomes. Closing the merged incident does not mean every underlying
+problem received a code fix. The table below preserves the earlier export's report counts
+and filing state; its “no ticket of its own” label describes that export. The linked issues
+record the separate problems and their final dispositions. The unusual report bodies still
+need evidence before assigning another cause; the desk update does not prove what caused them.
 
 ## Count reports once, classify by tenant and channel
 
