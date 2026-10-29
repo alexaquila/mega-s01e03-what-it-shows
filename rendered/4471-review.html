@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en"><head>
+  
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>#4471 reviewed: two causes behind the date reports · support kb</title><style type="text/css" data-vite-dev-id="/workspace/s01e03/repo/src/lib/layouts/runbook.svelte?svelte&amp;type=style&amp;lang.css">
+  :root {
+    --bg: #fbfaf7; --fg: #1d1d1b; --muted: #6b6a66; --line: #e3e0d8;
+    --accent: #2f6f5e; --warn: #b4501f; --warn-bg: #fbeee6; --note-bg: #eef5f2;
+    --mono: ui-monospace, 'Cascadia Code', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #171716; --fg: #ecebe6; --muted: #9c9a93; --line: #34332f;
+      --accent: #6fbfa6; --warn: #f0905d; --warn-bg: #3a2418; --note-bg: #1d2c27;
+    }
+  }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, sans-serif; }
+  .kb table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.92rem; }
+  .kb th, .kb td { border-bottom: 1px solid var(--line); padding: 0.35rem 0.5rem; text-align: left; }
+  .kb code { font-family: var(--mono); font-size: 0.88em; }
+  .kb a { color: var(--accent); }
+  .kb.s-u7Xh9kUH3DOd { max-width: 760px; margin: 0 auto; padding: 2rem 16px 4rem; }
+  .crumb.s-u7Xh9kUH3DOd { font: 0.8rem var(--mono); text-decoration: none; color: var(--muted); }
+  h1.s-u7Xh9kUH3DOd { margin: 0.25rem 0 0.5rem; line-height: 1.2; }
+  .meta.s-u7Xh9kUH3DOd { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; color: var(--muted); font-size: 0.85rem; margin: 0; }
+  .status.s-u7Xh9kUH3DOd { border: 1px solid var(--line); border-radius: 99px; padding: 0 0.6rem; }
+  .stale.s-u7Xh9kUH3DOd { color: var(--warn); font-weight: 600; }
+  .banner.s-u7Xh9kUH3DOd { background: var(--warn-bg); color: var(--warn); padding: 0.6rem 1rem; border-radius: 6px; }
+  footer.s-u7Xh9kUH3DOd { margin-top: 3rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+ .s-u7Xh9kUH3DOd{}</style><style type="text/css" data-vite-dev-id="/workspace/s01e03/repo/src/lib/kb/DedupeExplorer.svelte?svelte&amp;type=style&amp;lang.css">
+  .try.s-ua9Lteaech4N { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+  fieldset.s-ua9Lteaech4N { display: grid; gap: 0.4rem; border: 1px solid var(--line); border-radius: 6px; }
+  .verdict.s-ua9Lteaech4N { grid-column: 1 / -1; margin: 0; font-weight: 600; color: var(--muted); }
+  .dup.s-ua9Lteaech4N { color: var(--accent); font-weight: 600; }
+ .s-ua9Lteaech4N{}</style><style type="text/css" data-vite-dev-id="/workspace/s01e03/repo/src/lib/kb/RenderStamp.svelte?svelte&amp;type=style&amp;lang.css">
+  .stamp.s-rZ8url3kVqxe { margin: 2rem 0 0; font: 0.85rem var(--mono); color: var(--muted); }
+  .stamp.s-rZ8url3kVqxe b:where(.s-rZ8url3kVqxe) { color: var(--accent); letter-spacing: 0.04em; }
+  .missing.s-rZ8url3kVqxe { color: var(--warn); }
+ .s-rZ8url3kVqxe{}</style><style type="text/css" data-vite-dev-id="/workspace/s01e03/repo/src/lib/kb/CauseTable.svelte?svelte&amp;type=style&amp;lang.css">
+  .sum.s-PHUvFraq7LDZ { font-size: 1.1rem; }
+  .tags.s-PHUvFraq7LDZ { color: var(--muted); font-size: 0.85em; }
+  .note.s-PHUvFraq7LDZ { color: var(--muted); font-size: 0.85em; }
+  .wrong.s-PHUvFraq7LDZ td:where(.s-PHUvFraq7LDZ) { background: var(--warn-bg); }
+  .wrong.s-PHUvFraq7LDZ td:where(.s-PHUvFraq7LDZ):last-child { color: var(--warn); font-weight: 600; }
+ .s-PHUvFraq7LDZ{}</style><style type="text/css" data-vite-dev-id="/workspace/s01e03/repo/src/lib/kb/QueueTimeline.svelte?svelte&amp;type=style&amp;lang.css">
+  svg.s-RT1pCdHQKsd4 { width: 100%; max-width: 640px; }
+  .in.s-RT1pCdHQKsd4 { fill: var(--warn); }
+  .merged.s-RT1pCdHQKsd4 { fill: var(--accent); }
+  text.s-RT1pCdHQKsd4 { font: 8px var(--mono); fill: var(--muted); text-anchor: middle; }
+  figcaption.s-RT1pCdHQKsd4 { color: var(--muted); font-size: 0.85rem; }
+  .key.s-RT1pCdHQKsd4 { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 2px; }
+  .key.in.s-RT1pCdHQKsd4 { background: var(--warn); }
+  .key.merged.s-RT1pCdHQKsd4 { background: var(--accent); }
+ .s-RT1pCdHQKsd4{}</style><style type="text/css" data-vite-dev-id="/workspace/s01e03/repo/src/lib/kb/Callout.svelte?svelte&amp;type=style&amp;lang.css">
+  aside.s-0sFGAJLDDPob { border-left: 4px solid var(--accent); padding: 0.5rem 1rem; margin: 1rem 0; background: var(--note-bg); }
+  aside.warn.s-0sFGAJLDDPob { border-color: var(--warn); background: var(--warn-bg); }
+ .s-0sFGAJLDDPob{}</style><style type="text/css" data-vite-dev-id="/workspace/s01e03/repo/src/lib/kb/KbIndex.svelte?svelte&amp;type=style&amp;lang.css">
+  .stale.s-aj1amuVO9I7U { color: var(--warn); font-weight: 600; }
+ .s-aj1amuVO9I7U{}</style><style>:root { --bg: #fbfaf7; --fg: #1d1d1b; --muted: #6b6a66; --line: #e3e0d8; --accent: #2f6f5e; --warn: #b4501f; --warn-bg: #fbeee6; --note-bg: #eef5f2; --mono: ui-monospace, 'Cascadia Code', Menlo, monospace; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #171716; --fg: #ecebe6; --muted: #9c9a93; --line: #34332f; --accent: #6fbfa6; --warn: #f0905d; --warn-bg: #3a2418; --note-bg: #1d2c27; }
+}
+body { margin: 0px; background: var(--bg); color: var(--fg); font: 16px / 1.6 system-ui, sans-serif; }
+.kb table { border-collapse: collapse; width: 100%; margin: 1rem 0px; font-size: 0.92rem; }
+.kb th, .kb td { border-bottom: 1px solid var(--line); padding: 0.35rem 0.5rem; text-align: left; }
+.kb code { font-family: var(--mono); font-size: 0.88em; }
+.kb a { color: var(--accent); }
+.kb.s-u7Xh9kUH3DOd { max-width: 760px; margin: 0px auto; padding: 2rem 16px 4rem; }
+.crumb.s-u7Xh9kUH3DOd { font: 0.8rem var(--mono); text-decoration: none; color: var(--muted); }
+h1.s-u7Xh9kUH3DOd { margin: 0.25rem 0px 0.5rem; line-height: 1.2; }
+.meta.s-u7Xh9kUH3DOd { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; color: var(--muted); font-size: 0.85rem; margin: 0px; }
+.status.s-u7Xh9kUH3DOd { border: 1px solid var(--line); border-radius: 99px; padding: 0px 0.6rem; }
+.stale.s-u7Xh9kUH3DOd { color: var(--warn); font-weight: 600; }
+.banner.s-u7Xh9kUH3DOd { background: var(--warn-bg); color: var(--warn); padding: 0.6rem 1rem; border-radius: 6px; }
+footer.s-u7Xh9kUH3DOd { margin-top: 3rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+.s-u7Xh9kUH3DOd { }
+.try.s-ua9Lteaech4N { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0px; }
+fieldset.s-ua9Lteaech4N { display: grid; gap: 0.4rem; border: 1px solid var(--line); border-radius: 6px; }
+.verdict.s-ua9Lteaech4N { grid-column: 1 / -1; margin: 0px; font-weight: 600; color: var(--muted); }
+.dup.s-ua9Lteaech4N { color: var(--accent); font-weight: 600; }
+.s-ua9Lteaech4N { }
+.stamp.s-rZ8url3kVqxe { margin: 2rem 0px 0px; font: 0.85rem var(--mono); color: var(--muted); }
+.stamp.s-rZ8url3kVqxe b:where(.s-rZ8url3kVqxe) { color: var(--accent); letter-spacing: 0.04em; }
+.missing.s-rZ8url3kVqxe { color: var(--warn); }
+.s-rZ8url3kVqxe { }
+.sum.s-PHUvFraq7LDZ { font-size: 1.1rem; }
+.tags.s-PHUvFraq7LDZ { color: var(--muted); font-size: 0.85em; }
+.note.s-PHUvFraq7LDZ { color: var(--muted); font-size: 0.85em; }
+.wrong.s-PHUvFraq7LDZ td:where(.s-PHUvFraq7LDZ) { background: var(--warn-bg); }
+.wrong.s-PHUvFraq7LDZ td:where(.s-PHUvFraq7LDZ):last-child { color: var(--warn); font-weight: 600; }
+.s-PHUvFraq7LDZ { }
+svg.s-RT1pCdHQKsd4 { width: 100%; max-width: 640px; }
+.in.s-RT1pCdHQKsd4 { fill: var(--warn); }
+.merged.s-RT1pCdHQKsd4 { fill: var(--accent); }
+text.s-RT1pCdHQKsd4 { font: 8px var(--mono); fill: var(--muted); text-anchor: middle; }
+figcaption.s-RT1pCdHQKsd4 { color: var(--muted); font-size: 0.85rem; }
+.key.s-RT1pCdHQKsd4 { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 2px; }
+.key.in.s-RT1pCdHQKsd4 { background: var(--warn); }
+.key.merged.s-RT1pCdHQKsd4 { background: var(--accent); }
+.s-RT1pCdHQKsd4 { }
+aside.s-0sFGAJLDDPob { border-left: 4px solid var(--accent); padding: 0.5rem 1rem; margin: 1rem 0px; background: var(--note-bg); }
+aside.warn.s-0sFGAJLDDPob { border-color: var(--warn); background: var(--warn-bg); }
+.s-0sFGAJLDDPob { }
+.stale.s-aj1amuVO9I7U { color: var(--warn); font-weight: 600; }
+.s-aj1amuVO9I7U { }</style></head><body><div id="app"><!----><!----><div class="kb s-u7Xh9kUH3DOd"><header class="s-u7Xh9kUH3DOd"><a class="crumb s-u7Xh9kUH3DOd" href="/kb">support desk · kb</a> <h1 class="s-u7Xh9kUH3DOd">#4471 reviewed: two causes behind the date reports</h1> <p class="meta s-u7Xh9kUH3DOd"><span class="s-u7Xh9kUH3DOd">owner <b class="s-u7Xh9kUH3DOd">support desk</b></span> <span class="status reviewed-export s-u7Xh9kUH3DOd">reviewed-export</span> <span class="s-u7Xh9kUH3DOd">reviewed 2026-10-29 · 0 days ago</span></p></header> <!----> <main class="s-u7Xh9kUH3DOd"><p>This review covers the <strong>4 October 2026 export</strong>, not the live queue. The desk keeps working;
+refresh the export and rerun these views before using the counts for a new handoff.</p> <p>The <a href="/kb/incidents/4471">original incident</a> says “one issue, one fix queued.” Its own
+rendered table shows two causes. One parser fix does not fix the booking form’s hint.</p> <h2>Count reports once, classify by tenant and channel</h2> <p class="sum s-PHUvFraq7LDZ"><strong class="s-PHUvFraq7LDZ">412</strong> reports merged into #4471 · <strong class="s-PHUvFraq7LDZ">2</strong> causes</p> <table class="s-PHUvFraq7LDZ"><thead class="s-PHUvFraq7LDZ"><tr class="s-PHUvFraq7LDZ"><th class="s-PHUvFraq7LDZ">cause</th><th class="s-PHUvFraq7LDZ">reports</th><th class="s-PHUvFraq7LDZ">tagged as</th><th class="s-PHUvFraq7LDZ">tenants</th><th class="s-PHUvFraq7LDZ">seen</th><th class="s-PHUvFraq7LDZ"></th></tr></thead><tbody class="s-PHUvFraq7LDZ"><tr class="s-PHUvFraq7LDZ"><td class="s-PHUvFraq7LDZ"><code class="s-PHUvFraq7LDZ">parser</code></td><td class="s-PHUvFraq7LDZ">379</td><td class="tags s-PHUvFraq7LDZ">parser ×356 · hint ×23</td><td class="s-PHUvFraq7LDZ">11</td><td class="s-PHUvFraq7LDZ">2026-04-01 → 2026-10-04</td><td class="s-PHUvFraq7LDZ">#4471</td></tr><tr class="s-PHUvFraq7LDZ wrong"><td class="s-PHUvFraq7LDZ"><code class="s-PHUvFraq7LDZ">hint</code></td><td class="s-PHUvFraq7LDZ">33</td><td class="tags s-PHUvFraq7LDZ">hint ×18 · parser ×15</td><td class="s-PHUvFraq7LDZ">3</td><td class="s-PHUvFraq7LDZ">2026-04-17 → 2026-09-22</td><td class="s-PHUvFraq7LDZ">not this ticket — no ticket of its own</td></tr></tbody></table> <!----><p class="note s-PHUvFraq7LDZ">5 reports read as a one-day move; filed under <code class="s-PHUvFraq7LDZ">parser</code> by tenant.</p><!----><!----><!----> <p>The table deduplicates report IDs before filtering to ticket 4471. It looks up the tenant’s
+locale and booking-form version, and uses the platform’s date-part order. It does not treat
+browser locale, subject, or the intake tag as proof of cause. Export pages overlap; repeated
+rows are not extra people or extra reports. The intake tags disagree with the cause logic in
+both directions, as the table shows.</p> <h3>Parser: shared parser reads month first</h3> <p>Day-first tenant dates are read month first by the shared parser. For example, R-41200
+reports a 7 April reminder becoming 4 July. App and email reports, and form reports whose
+hint agrees with the tenant’s date order, belong to this group under the current logic.
+Fix the parser to respect the tenant’s locale and test ambiguous dates with both parts at
+most 12, plus unambiguous dates. Keep this separate from the form-hint fix.</p> <h3>Hint: booking-v3 tells day-first users to enter month first</h3> <p>The booking-v3 form displays MM/DD/YYYY while the form reads the date in the tenant’s
+locale order. This affects form reports from Alder Physio, Copper Studio and Pale Harbour.
+For example, R-41230 describes 6 January becoming 1 June. These reports were merged into
+4471 but have no separate ticket in the export. Match the hint to the actual input parser
+and locale, and test the displayed hint and resulting date together.</p> <h3>Five reports need a separate investigation</h3> <p>The table’s footnote is a warning, not proof that a date swap explains every body.
+R-41202 says 12 May became 11 May; R-41209 says June bookings are one day off;
+R-41236 says the invite arrived before the booking; R-41344 reports different weekdays in
+Lisbon and Toronto; R-41620 says 6 October showed as Monday. They remain included in the
+parser group according to the supplied classifier; do not double-count them or silently
+claim a confirmed timezone bug. Inspect original timestamps, timezone conversion and
+booking/invite logs before deciding whether to split another cause. The export alone
+cannot establish that root cause.</p> <h2>Reports arrived before the merge spike</h2> <figure class="s-RT1pCdHQKsd4"><svg role="img" class="s-RT1pCdHQKsd4" viewBox="0 0 648 140" aria-label="reports received and merged into #4471, per week"><rect class="in s-RT1pCdHQKsd4" width="9" x="2" y="106.29629629629629" height="3.7037037037037033"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="12" y="110" height="0"></rect><text y="128" class="s-RT1pCdHQKsd4" x="12">03-30</text><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="26" y="104.17989417989418" height="5.82010582010582"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="36" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="50" y="102.5925925925926" height="7.4074074074074066"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="60" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="74" y="99.94708994708995" height="10.052910052910052"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="84" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="98" y="101.53439153439153" height="8.465608465608465"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="108" y="110" height="0"></rect><text y="128" class="s-RT1pCdHQKsd4" x="108">04-27</text><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="122" y="103.65079365079364" height="6.349206349206349"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="132" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="146" y="105.76719576719577" height="4.232804232804233"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="156" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="170" y="103.65079365079364" height="6.349206349206349"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="180" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="194" y="102.5925925925926" height="7.4074074074074066"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="204" y="110" height="0"></rect><text y="128" class="s-RT1pCdHQKsd4" x="204">05-25</text><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="218" y="101.00529100529101" height="8.994708994708994"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="228" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="242" y="101.53439153439153" height="8.465608465608465"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="252" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="266" y="101.00529100529101" height="8.994708994708994"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="276" y="110" height="0"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="290" y="104.17989417989418" height="5.82010582010582"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="300" y="110" height="0"></rect><text y="128" class="s-RT1pCdHQKsd4" x="300">06-22</text><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="314" y="102.06349206349206" height="7.936507936507936"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="324" y="10" height="100"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="338" y="99.94708994708995" height="10.052910052910052"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="348" y="100.47619047619048" height="9.523809523809524"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="362" y="101.00529100529101" height="8.994708994708994"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="372" y="100.47619047619048" height="9.523809523809524"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="386" y="102.06349206349206" height="7.936507936507936"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="396" y="102.06349206349206" height="7.936507936507936"></rect><text y="128" class="s-RT1pCdHQKsd4" x="396">07-20</text><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="410" y="99.94708994708995" height="10.052910052910052"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="420" y="99.94708994708995" height="10.052910052910052"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="434" y="105.76719576719577" height="4.232804232804233"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="444" y="105.76719576719577" height="4.232804232804233"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="458" y="102.06349206349206" height="7.936507936507936"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="468" y="102.06349206349206" height="7.936507936507936"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="482" y="99.41798941798942" height="10.582010582010582"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="492" y="99.41798941798942" height="10.582010582010582"></rect><text y="128" class="s-RT1pCdHQKsd4" x="492">08-17</text><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="506" y="102.5925925925926" height="7.4074074074074066"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="516" y="102.5925925925926" height="7.4074074074074066"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="530" y="98.88888888888889" height="11.11111111111111"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="540" y="98.88888888888889" height="11.11111111111111"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="554" y="99.41798941798942" height="10.582010582010582"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="564" y="99.41798941798942" height="10.582010582010582"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="578" y="102.06349206349206" height="7.936507936507936"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="588" y="102.06349206349206" height="7.936507936507936"></rect><text y="128" class="s-RT1pCdHQKsd4" x="588">09-14</text><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="602" y="96.77248677248677" height="13.227513227513226"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="612" y="97.83068783068784" height="12.16931216931217"></rect><!----><rect class="in s-RT1pCdHQKsd4" width="9" x="626" y="102.06349206349206" height="7.936507936507936"></rect><rect class="merged s-RT1pCdHQKsd4" width="9" x="636" y="101.00529100529101" height="8.994708994708994"></rect><!----></svg> <figcaption class="s-RT1pCdHQKsd4"><span class="key in s-RT1pCdHQKsd4"></span> received · <span class="key merged s-RT1pCdHQKsd4"></span> merged into #4471 · per week</figcaption></figure><!----> <p>The two series measure different events: receivedAt is when a report arrived; mergedAt is
+when the desk filed it into 4471. Reports arrive from April onward. The large July merge
+spike is a backlog being filed, not evidence that the bug began in July or that reports
+suddenly rose then. Continued arrivals after July show the issue remained active in this
+export; a merge is not a fix.</p> <h2>Replace subject-only triage</h2> <p>The <a href="/kb/decisions/0001-dedupe-by-subject">accepted 2024 decision</a> is historical and is
+preserved unchanged. Its subject-only rule conflicts with the working explorer below.
+The <a href="/kb/decisions/0002-dedupe-by-cause">replacement decision</a> and <a href="/kb/triage/dedupe">updated triage instructions</a> require evidence of the same cause.</p> <div class="try s-ua9Lteaech4N"><fieldset class="s-ua9Lteaech4N"><legend class="s-ua9Lteaech4N">report A</legend> <select aria-label="tenant" class="s-ua9Lteaech4N" disabled=""><option class="s-ua9Lteaech4N">alder.physio</option><option class="s-ua9Lteaech4N">copper.studio</option><option class="s-ua9Lteaech4N">harbour.dental</option><option class="s-ua9Lteaech4N">kettle.books</option><option class="s-ua9Lteaech4N">lantern.row</option><option class="s-ua9Lteaech4N">long.table</option><option class="s-ua9Lteaech4N">morrow.tax</option><option class="s-ua9Lteaech4N">nine.lanterns</option><option class="s-ua9Lteaech4N">pale.harbour</option><option class="s-ua9Lteaech4N">ridge.clinic</option><option class="s-ua9Lteaech4N">stone.and.sons</option></select> <select aria-label="channel" class="s-ua9Lteaech4N" disabled=""><option class="s-ua9Lteaech4N">app</option><option class="s-ua9Lteaech4N">email</option><option class="s-ua9Lteaech4N">form</option></select> <input aria-label="subject" class="s-ua9Lteaech4N" disabled=""> <code class="s-ua9Lteaech4N">hint</code></fieldset><fieldset class="s-ua9Lteaech4N"><legend class="s-ua9Lteaech4N">report B</legend> <select aria-label="tenant" class="s-ua9Lteaech4N" disabled=""><option class="s-ua9Lteaech4N">alder.physio</option><option class="s-ua9Lteaech4N">copper.studio</option><option class="s-ua9Lteaech4N">harbour.dental</option><option class="s-ua9Lteaech4N">kettle.books</option><option class="s-ua9Lteaech4N">lantern.row</option><option class="s-ua9Lteaech4N">long.table</option><option class="s-ua9Lteaech4N">morrow.tax</option><option class="s-ua9Lteaech4N">nine.lanterns</option><option class="s-ua9Lteaech4N">pale.harbour</option><option class="s-ua9Lteaech4N">ridge.clinic</option><option class="s-ua9Lteaech4N">stone.and.sons</option></select> <select aria-label="channel" class="s-ua9Lteaech4N" disabled=""><option class="s-ua9Lteaech4N">app</option><option class="s-ua9Lteaech4N">email</option><option class="s-ua9Lteaech4N">form</option></select> <input aria-label="subject" class="s-ua9Lteaech4N" disabled=""> <code class="s-ua9Lteaech4N">parser</code></fieldset><!----> <p class="verdict s-ua9Lteaech4N">different causes — keep apart</p></div> <table class="s-ua9Lteaech4N"><thead class="s-ua9Lteaech4N"><tr class="s-ua9Lteaech4N"><th class="s-ua9Lteaech4N">case</th><th class="s-ua9Lteaech4N">same subject</th><th class="s-ua9Lteaech4N">same cause</th></tr></thead><tbody class="s-ua9Lteaech4N"><tr class="s-ua9Lteaech4N"><td class="s-ua9Lteaech4N">app vs email, same tenant</td><td class="s-ua9Lteaech4N">no</td><td class="s-ua9Lteaech4N dup">yes</td></tr><tr class="s-ua9Lteaech4N"><td class="s-ua9Lteaech4N">same subject, same tenant, different channel</td><td class="s-ua9Lteaech4N">yes</td><td class="s-ua9Lteaech4N">no</td></tr><tr class="s-ua9Lteaech4N"><td class="s-ua9Lteaech4N">same subject, same channel, different tenant</td><td class="s-ua9Lteaech4N">yes</td><td class="s-ua9Lteaech4N">no</td></tr><tr class="s-ua9Lteaech4N"><td class="s-ua9Lteaech4N">different subject, same way in</td><td class="s-ua9Lteaech4N">no</td><td class="s-ua9Lteaech4N dup">yes</td></tr><tr class="s-ua9Lteaech4N"><td class="s-ua9Lteaech4N">no tenant on file</td><td class="s-ua9Lteaech4N">yes</td><td class="s-ua9Lteaech4N">no</td></tr></tbody></table><!----> <p>Different subjects can describe the same cause; the same subject and tenant can cover
+parser and hint problems on different channels. Unknown tenants cannot be classified and
+must be investigated. Read the body as well: the five reports above show the limit of
+relying on the classifier alone.</p> <aside class="warn s-0sFGAJLDDPob">The index and page frames compute age from the review dates. The old triage and accepted
+2024 decision exceed the 180-day review threshold; their confident wording is not current
+evidence. A recent review date on the original incident also does not resolve its conflict
+with its own rendered views. Re-read source, data and rendered output together.<!----></aside><!----> <!----><p class="stamp s-rZ8url3kVqxe">desk ref <b class="s-rZ8url3kVqxe">DR-ZZ13-S64C</b></p><!----><!----></main> <footer class="s-u7Xh9kUH3DOd">Pages are written by people. Tables and charts are built from data at render time.</footer></div></div>
+</body></html>

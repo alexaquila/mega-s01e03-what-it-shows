@@ -1,0 +1,92 @@
+---
+layout: runbook
+title: '#4471 reviewed: two causes behind the date reports'
+owner: support desk
+status: reviewed-export
+reviewed: 2026-10-29
+signature: 'Codex · S01E03 · 2026-10-29'
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+This review covers the **4 October 2026 export**, not the live queue. The desk keeps working;
+refresh the export and rerun these views before using the counts for a new handoff.
+
+The [original incident](/kb/incidents/4471) says “one issue, one fix queued.” Its own
+rendered table shows two causes. One parser fix does not fix the booking form's hint.
+
+## Count reports once, classify by tenant and channel
+
+<CauseTable ticket={4471} />
+
+The table deduplicates report IDs before filtering to ticket 4471. It looks up the tenant's
+locale and booking-form version, and uses the platform's date-part order. It does not treat
+browser locale, subject, or the intake tag as proof of cause. Export pages overlap; repeated
+rows are not extra people or extra reports. The intake tags disagree with the cause logic in
+both directions, as the table shows.
+
+### Parser: shared parser reads month first
+
+Day-first tenant dates are read month first by the shared parser. For example, R-41200
+reports a 7 April reminder becoming 4 July. App and email reports, and form reports whose
+hint agrees with the tenant's date order, belong to this group under the current logic.
+Fix the parser to respect the tenant's locale and test ambiguous dates with both parts at
+most 12, plus unambiguous dates. Keep this separate from the form-hint fix.
+
+### Hint: booking-v3 tells day-first users to enter month first
+
+The booking-v3 form displays MM/DD/YYYY while the form reads the date in the tenant's
+locale order. This affects form reports from Alder Physio, Copper Studio and Pale Harbour.
+For example, R-41230 describes 6 January becoming 1 June. These reports were merged into
+4471 but have no separate ticket in the export. Match the hint to the actual input parser
+and locale, and test the displayed hint and resulting date together.
+
+### Five reports need a separate investigation
+
+The table's footnote is a warning, not proof that a date swap explains every body.
+R-41202 says 12 May became 11 May; R-41209 says June bookings are one day off;
+R-41236 says the invite arrived before the booking; R-41344 reports different weekdays in
+Lisbon and Toronto; R-41620 says 6 October showed as Monday. They remain included in the
+parser group according to the supplied classifier; do not double-count them or silently
+claim a confirmed timezone bug. Inspect original timestamps, timezone conversion and
+booking/invite logs before deciding whether to split another cause. The export alone
+cannot establish that root cause.
+
+## Reports arrived before the merge spike
+
+<QueueTimeline ticket={4471} />
+
+The two series measure different events: receivedAt is when a report arrived; mergedAt is
+when the desk filed it into 4471. Reports arrive from April onward. The large July merge
+spike is a backlog being filed, not evidence that the bug began in July or that reports
+suddenly rose then. Continued arrivals after July show the issue remained active in this
+export; a merge is not a fix.
+
+## Replace subject-only triage
+
+The [accepted 2024 decision](/kb/decisions/0001-dedupe-by-subject) is historical and is
+preserved unchanged. Its subject-only rule conflicts with the working explorer below.
+The [replacement decision](/kb/decisions/0002-dedupe-by-cause) and
+[updated triage instructions](/kb/triage/dedupe) require evidence of the same cause.
+
+<DedupeExplorer />
+
+Different subjects can describe the same cause; the same subject and tenant can cover
+parser and hint problems on different channels. Unknown tenants cannot be classified and
+must be investigated. Read the body as well: the five reports above show the limit of
+relying on the classifier alone.
+
+<Callout kind="warn">
+The index and page frames compute age from the review dates. The old triage and accepted
+2024 decision exceed the 180-day review threshold; their confident wording is not current
+evidence. A recent review date on the original incident also does not resolve its conflict
+with its own rendered views. Re-read source, data and rendered output together.
+</Callout>
+
+<RenderStamp {signature} />

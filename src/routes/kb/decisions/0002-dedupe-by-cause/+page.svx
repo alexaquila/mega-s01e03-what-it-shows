@@ -1,0 +1,38 @@
+---
+layout: runbook
+title: '0002 · Merge only reports supported by the same cause'
+owner: support desk
+status: proposed
+reviewed: 2026-10-29
+signature: 'Codex · S01E03 · 2026-10-29'
+---
+
+<script>
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+## Context
+
+Ticket 4471 combines two causes. Matching subjects is neither necessary nor sufficient
+for duplication. The working explorer already distinguishes causes using tenant locale,
+form version and report channel. Report bodies can still reveal unexplained symptoms.
+
+## Proposed replacement for decision 0001
+
+Preserve the accepted [decision 0001](/kb/decisions/0001-dedupe-by-subject) as history.
+Replace its operational rule: deduplicate repeated export rows by report ID first; read
+each report and establish its cause using tenant configuration and channel. Merge only
+when cause evidence agrees. Keep parser and hint fixes separate. Unknown tenants or
+conflicting symptoms require investigation, not an automatic merge.
+
+<DedupeExplorer />
+
+## Consequences
+
+Triage requires reading and tenant lookup. Different subjects may merge and identical
+subjects may stay apart. Counts and supporting report IDs must remain reproducible when
+new exports arrive. The classifier supports triage; it does not prove unexplained bodies
+share its assigned root cause.
+
+<RenderStamp {signature} />

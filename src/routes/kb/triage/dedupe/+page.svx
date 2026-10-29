@@ -1,0 +1,31 @@
+---
+layout: runbook
+title: 'Triage: duplicate reports'
+owner: support desk
+status: proposed-update
+reviewed: 2026-10-29
+signature: 'Codex · S01E03 · 2026-10-29'
+---
+
+<script>
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Keep one ticket per supported cause. The old subject-only rule from
+[decision 0001](/kb/decisions/0001-dedupe-by-subject) merged different causes in 4471.
+[Decision 0002](/kb/decisions/0002-dedupe-by-cause) proposes its replacement.
+
+1. Deduplicate export rows by report ID.
+2. Read the body and look up the tenant's locale and booking-form version.
+3. Use channel and tenant date order to distinguish the shared parser from the booking-v3 hint.
+4. Merge only reports supported by the same cause. Subjects and browser-derived intake tags are clues.
+5. Investigate unknown tenants and bodies that disagree with the cause assignment. Keep their counts explicit.
+6. Refresh the data and regenerate counts before each handoff; the desk continues taking reports.
+
+<DedupeExplorer />
+
+See the [4471 review](/kb/incidents/4471-review) for the two groups, the uncertain reports
+and the difference between report arrival and merge activity.
+
+<RenderStamp {signature} />
