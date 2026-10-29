@@ -4,7 +4,7 @@ title: '0002 · Merge only reports supported by the same cause'
 owner: support desk
 status: proposed
 reviewed: 2026-10-29
-signature: 'Codex · S01E03 · 2026-10-29'
+signature: 'v1.eyJzdWIiOiIzMjY3IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyODkxNTEsImV4cCI6MTc5MzM3NTU1MX0.TVXkNYlqRh89PwybRVNBHJAp2KA2q_icRHf1EBMBVc0'
 ---
 
 <script>
